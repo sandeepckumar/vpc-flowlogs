@@ -23,18 +23,17 @@ cumulative_packets_from_initiator	uint64	The count of packets since the connecti
     cumulative_packets_from_target	uint64	The count of packets since the connection was initiated, from Target to Initiator.
 
 Custom/Meta Fields
-		  instance_crn :
-  network_interface_id :
-			   vpc_crn :
-				 state :
+instance_crn :
+network_interface_id :
+vpc_crn :
+state :
 attached_endpoint_type :
-			   version :
-		 collector_crn :
-				   key :
-				  _app :
-    capture_start_time :
-      capture_end_time :
-
+version :
+collector_crn :
+key :
+_app :
+capture_start_time :
+capture_end_time :
 """
 
 import json
@@ -73,7 +72,7 @@ class FlowLog:
 
 
 def convert_log_plain(out_str):
-    log = FlowLog(**json.loads(out_str))
+    log = FlowLog(**out_str)
     return log.build_log(LOG_SCHEMA)
 
 
