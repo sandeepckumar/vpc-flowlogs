@@ -3,6 +3,7 @@ import requests
 import time
 import sys
 
+
 class LogdnaSynchronous:
     """Synchronously send records to logdna.  Usage:
     loggit = LogdnaSynchronous(...)
@@ -13,6 +14,7 @@ class LogdnaSynchronous:
 
     Logic taken from https://github.com/logdna/python
     """
+
     def __init__(self, ingestion_endpoint, key, hostname, options={}):
         self.internalLogger = logging.getLogger('flowlog')
         self.url = f'{ingestion_endpoint}/logs/ingest'
@@ -27,15 +29,14 @@ class LogdnaSynchronous:
         self.user_agent = options.get('user_agent', 'python/1.18.1')
         self.buf_retention_limit = options.get('buf_retention_limit', 100000)
         self.loglevel = options.get('loglevel', 'INFO')
-        self.internalLogger.debug(f'url:{self.url} hostname:{self.hostname} retry_interval_secs:{self.retry_interval_secs} buf_retention_limit:{self.buf_retention_limit} loglevel:{self.loglevel} ')
-
+        self.internalLogger.debug(
+            f'url:{self.url} hostname:{self.hostname} retry_interval_secs:{self.retry_interval_secs} buf_retention_limit:{self.buf_retention_limit} loglevel:{self.loglevel} ')
 
     def clean_after_success(self):
         # self.close_flusher()
         self.buf.clear()
         self.buf_size = 0
         # self.exception_flag = False
-
 
     def try_request(self):
         data = {'e': 'ls', 'ls': self.buf}
@@ -54,8 +55,8 @@ class LogdnaSynchronous:
             self.internalLogger.error(
                 'Flush exceeded %s tries. Discarding flush buffer',
                 self.max_retry_attempts)
-            #self.close_flusher()
-            #self.exception_flag = True
+            # self.close_flusher()
+            # self.exception_flag = True
 
     def send_request(self, data):
         self.internalLogger.info(f'logdna send_request buf_size:{self.buf_size}')
@@ -84,7 +85,7 @@ class LogdnaSynchronous:
 
             if status_code in [400, 500, 504]:
                 self.internalLogger.warning('The request failed %s. Retrying...',
-                                          response.reason)
+                                            response.reason)
                 return True
             else:
                 self.internalLogger.warning(
@@ -92,7 +93,7 @@ class LogdnaSynchronous:
 
         except requests.exceptions.Timeout as timeout:
             self.internalLogger.warning('Timeout error occurred %s. Retrying...',
-                                      timeout)
+                                        timeout)
 
         except requests.exceptions.RequestException as exception:
             self.internalLogger.warning(

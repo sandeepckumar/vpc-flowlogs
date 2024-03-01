@@ -124,7 +124,7 @@ def log_cos_object_keys(logdna_endpoint, logdna_ingestion_key, apikey, cos_crn, 
     """Send list of cos flowlog objects to logdna"""
     log.info(f"sending the content of cos objects from bucket to logdna, number of objects:{len(keys)} bucket {bucket}")
     client = get_ibm_boto3_client(apikey, cos_crn, cos_endpoint)
-    logdna_writer = logdna_synchronous.LogdnaSynchronous(logdna_endpoint, logdna_ingestion_key, "flowlogjob")
+    logdna_writer = logdna_synchronous.LogdnaSynchronous(logdna_endpoint, logdna_ingestion_key, "IBM")
     for key in keys:
         cos_obj = client_get_object(client, bucket, key)
         if cos_obj.good():

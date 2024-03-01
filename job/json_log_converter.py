@@ -68,16 +68,20 @@ class FlowLog:
                 _log += str(self.__dict__.get(item)) + " "
             else:
                 _log += "Null" + " "
-        return _log
+        return _log + '{"_app":"flowlog"}'
 
 
 def convert_log_plain(out_str):
-    log = FlowLog(**out_str)
-    return log.build_log(LOG_SCHEMA)
+    if out_str:
+        log = FlowLog(**out_str)
+        return log.build_log(LOG_SCHEMA)
+    else:
+        return out_str
 
 
 if __name__ == "__main__":
     with open("sample.log", "r") as f:
         data = f.read()
 
-    print(convert_log_plain(data))
+    json_data = json.loads(data)
+    print(convert_log_plain(json_data))
