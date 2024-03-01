@@ -123,6 +123,7 @@ class LogdnaSynchronous:
             'timestamp': int(time.time() * 1000),
             'line': msg,
             'level': self.loglevel,
+            'app': "flowlog"
         }
         self.buffer_send_when_full(message)
 

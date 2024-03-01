@@ -68,7 +68,7 @@ class FlowLog:
                 _log += str(self.__dict__.get(item)) + " "
             else:
                 _log += "Null" + " "
-        return _log + '{"_app":"flowlog"}'
+        return _log
 
 
 def convert_log_plain(out_str):
